@@ -12,14 +12,19 @@ pipeline {
         stage('Build') {
             steps {
                 sh 'mvn clean'
-                sh 'mvn install'
-                sh 'mvn package'
+                sh 'mvn compile'
             }
         }
 
         stage('Test') {
             steps {
                 sh 'mvn test'
+            }
+        }
+
+        stage('Package') {
+            steps {
+                sh 'mvn package -DskipTests'
             }
         }
 
@@ -32,7 +37,7 @@ pipeline {
 
         stage('Docker') {
             steps {
-                echo 'iamge step'
+                echo 'image step'
             }
         }
 
