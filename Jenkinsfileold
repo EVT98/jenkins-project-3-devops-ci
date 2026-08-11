@@ -50,18 +50,12 @@ pipeline {
             }
         }
 
-        stage('Docker login') {
-            steps {
-                script {
-                    sh 'aws ecr get-login-password --region "${region}"| docker login --username AWS --password-stdin "${registry}"'
-                }
-            }
-        }
-
         stage('Deploy Image') {
             steps {
                 script {
-                    dockerImage.push()
+                    docker.withRegistry("https://"+registry,"ecr:us-east-1:"+registryCredential) {
+                        dockerImage.push()
+                    }
                 }
             }
         }
