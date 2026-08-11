@@ -6,8 +6,22 @@ pipeline {
         maven 'M2_HOME'
     }
 
+    enviroment {
+        
+        registry = "211125431540.dkr.ecr.us-east-1.amazonaws.com/devops_repository"
+        registryCredential = 'jenkins-ecr'
+        dockerImage = ''
+    }
 
     stages {
+    
+        stage('Checkout'){
+            steps {
+
+                git branch: 'main', url: 'https://github.com/EVT98/jenkins-project-3-devops-ci.git'
+            }
+        }
+
 
         stage('Build') {
             steps {
@@ -28,16 +42,21 @@ pipeline {
             }
         }
 
-        stage('Deploy') {
+        stage('Build image') {
             steps {
-                echo 'Deploy step'
-                sleep 10
+                script {
+                    dockerImage = docker.build registry + ":$BUILD_NUMBER"
+                }
             }
         }
 
-        stage('Docker') {
+        stage('Deploy Image') {
             steps {
-                echo 'image step'
+                script {
+                    docker.withRegistry("https://"+registry,"ecr:us-east-1:"+registryCredential) {
+                        dockerImage.push
+                    }
+                }
             }
         }
 
