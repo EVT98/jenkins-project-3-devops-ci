@@ -6,7 +6,7 @@ pipeline {
         maven 'M2_HOME'
     }
 
-    enviroment {
+    environment {
         
         registry = "211125431540.dkr.ecr.us-east-1.amazonaws.com/devops_repository"
         registryCredential = 'jenkins-ecr'
