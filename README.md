@@ -1,1 +1,3 @@
-# jenkins-project-3-devops-ci
+# maven-project
+
+Simple Maven Project
