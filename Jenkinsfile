@@ -54,7 +54,7 @@ pipeline {
             steps {
                 script {
                     docker.withRegistry("https://"+registry,"ecr:us-east-1:"+registryCredential) {
-                        dockerImage.push
+                        dockerImage.push()
                     }
                 }
             }
